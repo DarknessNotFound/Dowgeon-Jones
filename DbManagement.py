@@ -92,7 +92,7 @@ def CreatePlayersTable(Conn: sqlite3.Connection) -> None:
 
 
 def CreateCompanyTable(Conn: sqlite3.Connection) -> None:
-    """Creates the datatable tracking all users.
+    """Creates the datatable tracking all companies.
     Args:
         Conn (sqlite3.Connection): Connection to the database
     """
@@ -126,7 +126,7 @@ def CreateCompanyTable(Conn: sqlite3.Connection) -> None:
 
 
 def CreateIndustryTable(Conn: sqlite3.Connection) -> None:
-    """Creates the datatable tracking all users.
+    """Creates the datatable tracking all the industries.
     Args:
         Conn (sqlite3.Connection): Connection to the database
     """
@@ -152,7 +152,7 @@ def CreateIndustryTable(Conn: sqlite3.Connection) -> None:
 
 
 def CreateHistoryTable(Conn: sqlite3.Connection) -> None:
-    """Creates the datatable tracking all users.
+    """Creates the datatable tracking the history of companies.
     Args:
         Conn (sqlite3.Connection): Connection to the database
     """

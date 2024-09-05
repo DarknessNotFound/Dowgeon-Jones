@@ -33,7 +33,7 @@ CreateSuperuser(OWNER)
 
 # Bot and client settings.
 client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix='>>', intents=intents, case_insensitive=True)
+bot = commands.Bot(command_prefix='--', intents=intents, case_insensitive=True)
 # Prints a message to say it connected successfully
 # NOTE: Sometimes takes a second to trigger and send msg
 
@@ -65,11 +65,11 @@ async def load_extensions():
         if filename.endswith('.py'):
             await bot.load_extension(f'cogs.{filename[:-3]}')
 
-
 # Functions that starts the bot.
 async def main():
     async with bot:
         await load_extensions()
         await bot.start(TOKEN)
+
 
 asyncio.run(main())
