@@ -100,7 +100,7 @@ def DayPostScript(x: int) -> int:
             result = "th"
     elif x % 10 == 3:
         result = "rd"
-        if x == 1:
+        if x == 13:
             result = "th"
     else:
         result = "th"
