@@ -77,6 +77,49 @@ def CurrentMinute(epoch: float) -> int:
 def CurrentSecond(epoch: float) -> int:
     return int(((epoch / SECONDS_PER_IN_GAME_DAY) - int(epoch // SECONDS_PER_IN_GAME_DAY)) * 24 * 60 * 60 % 60)
 
+def TimeLengthDays(epoch_start: float, epoch_end: float) -> float:
+    if epoch_end < epoch_start:
+        return -1
+    elif epoch_end == epoch_start:
+        return 0
+    else:
+        return (epoch_end - epoch_start) / SECONDS_PER_IN_GAME_DAY
+    
+def TimeLengthHours(epoch_start: float, epoch_end: float) -> float:
+    if epoch_end < epoch_start:
+        return -1
+    elif epoch_end == epoch_start:
+        return 0
+    else:
+        return ((epoch_end - epoch_start) / SECONDS_PER_IN_GAME_DAY) * 24
+    
+def TimeLengthMinutes(epoch_start: float, epoch_end: float) -> float:
+    if epoch_end < epoch_start:
+        return -1
+    elif epoch_end == epoch_start:
+        return 0
+    else:
+        return ((epoch_end - epoch_start) / SECONDS_PER_IN_GAME_DAY) * 24 * 60
+
+def TimeLengthSeconds(epoch_start: float, epoch_end: float) -> float:
+    if epoch_end < epoch_start:
+        return -1
+    elif epoch_end == epoch_start:
+        return 0
+    else:
+        return ((epoch_end - epoch_start) / SECONDS_PER_IN_GAME_DAY) * 24 * 60 * 60
+    
+def TimeLengthPrettyPrint(epoch_start: float, epoch_end: float, shorthand: bool = False) -> str:
+    # Note: x // 1 == floor(x)
+    days = TimeLengthDays(epoch_start, epoch_end)
+    hours = (days - (days // 1)) * 24
+    minutes = (hours - (hours // 1)) * 60
+    seconds = (minutes - (minutes // 1)) * 60
+    if shorthand:
+        return f"Duration: {int(days // 1)}:{int(hours // 1)}:{int(minutes // 1)}:{int(seconds // 1)}"
+    else:
+        return f"Duration: {int(days // 1)} days, {int(hours // 1)} hours, {int(minutes // 1)} minutes, {int(seconds // 1)} seconds."
+
 def MonthFromWeekOfYear(week_num: int) -> int:
     week_count = 0
     for month in range(1, NUM_MONTHS_IN_YEAR + 1):

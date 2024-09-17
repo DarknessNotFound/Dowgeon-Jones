@@ -5,7 +5,8 @@ import DbManagement as DB
 import discord.guild
 from discord.ext import tasks, commands
 from discord import Guild
-from calendarHelper import PrettyPrintDate, MONTH_NAMES
+from calendarHelper import PrettyPrintDate, MONTH_NAMES, TimeLengthPrettyPrint
+import calendarHelper
 
 import time
 import json
@@ -80,34 +81,73 @@ class Calendar(commands.Cog):
             print(f"Message: {str(ex)}")
             await ctx.send("Error calculating time, please try again.")
 
-    @commands.command(name='time', help='Displays the current datetime. [epoch] adding an interger of epoch time will convert any epoch time.')
-    async def time(self, ctx, *args):
-        """Displays the current time
+    @commands.command(name='duration', 
+        help='\tduration start end [flags]\nCalculates the time difference in game between two epoch seconds.\n-c: concise display\n-d: days only\n-h: hours only\n-m: minutes only\n-s: seconds only')
+    async def duration(self, ctx, *args):
+        """Calculates the duration in game.
 
         Args:
             ctx (_type_): _description_
         """
         try:
-            if len(args) > 0:
-                if args[0].isdigit() and int(args[0]) >= 0:
-                    await ctx.send(f"Datetime: {PrettyPrintDate(int(args[0]), False)}")
-                else:
-                    await ctx.send(f"ERROR: please input a positive integer")
+
+            if len(args) < 2:
+                await ctx.send(f"ERROR: please input at least two positive integers.")
+                return
+            
+            start = args[0]
+            end = args[1]
+            flag = ""
+            if len(args) >= 3:
+                flag = args[2]
+
+            if not start.isdigit():
+                await ctx.send(f"ERROR: start must be a integer.")
+                return
+            
+            if not end.isdigit():
+                await ctx.send(f"ERROR: end must be a integer.")
+                return
+            
+            start = int(start)
+            end = int(end)
+            if start < 0:
+                await ctx.send(f"WARNING: start must be non-negative, setting start to 0.")
+                start = 0
+
+            if end < 0:
+                await ctx.send(f"WARNING: end must be non-negative, setting end to be one higher than the start.")
+                end = start + 1
+
+            if flag == "":
+                await ctx.send(f"{TimeLengthPrettyPrint(start, end)}")
+            elif flag == "-c":
+                await ctx.send(f"{TimeLengthPrettyPrint(start, end, True)}")
+            elif flag == "-d":
+                await ctx.send(f"{calendarHelper.TimeLengthDays(start, end):.2f} days")
+            elif flag == "-h":
+                await ctx.send(f"{calendarHelper.TimeLengthHours(start, end):.2f} hours")
+            elif flag == "-m":
+                await ctx.send(f"{calendarHelper.TimeLengthMinutes(start, end):.2f} minutes")
+            elif flag == "-s":
+                await ctx.send(f"{calendarHelper.TimeLengthSeconds(start, end):.2f} seconds")
             else:
-                await ctx.send(f"Datetime: {PrettyPrintDate(time.time(), False)}")
+                await ctx.send(f"WARNING: didn't understand flag. Flags are: \n\t-c: concise display\n\t-d: days only\n\t-h: hours only\n\t-m: minutes only\n\t-s: seconds only")
+                await ctx.send(f"{TimeLengthPrettyPrint(start, end)}")
+
             
         except Exception as ex:
             Log.Error(FILE_NAME, "time", str(ex))
             print(f"ERROR: In file \"{FILE_NAME}\" of command \"time\"")
             print(f"Message: {str(ex)}")
-            await ctx.send("Error calculating time, please try again.")
+            await ctx.send("Error calculating time, please try again.") 
 
     @commands.command(name='months', help='Displays the months of the year.')
     async def months(self, ctx, *args):
         """Displays the current date
 
         Args:
-            ctx (_type_): _description_
+            ctx (_type_): 
         """
         try:
             msg = ""
@@ -133,7 +173,7 @@ class Calendar(commands.Cog):
         await self.client.wait_until_ready()
         for guild in self.client.guilds:
             if str(guild.id) not in self.voice_chat_d:
-                channel = await guild.create_voice_channel(name = PrettyPrintDate(time.time(), True))
+                channel = await guild.create_voice_channel(name = f"{time.time() % 3}_{PrettyPrintDate(time.time(), True)}")
                 self.voice_chat_d[str(guild.id)] = channel.id
             else:
                 channel = self.client.get_channel(self.voice_chat_d[str(guild.id)])

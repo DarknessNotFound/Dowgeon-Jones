@@ -4,7 +4,7 @@ import re
 import Logging as Log
 
 # Database Names
-STOCK_DB = "DB_StockSimulator.db"
+STOCK_DB = "StockSimulator.db"
 
 # Sqlite Database Settings
 CONNECTION_PATH = os.path.join("./Databases", STOCK_DB)
@@ -77,7 +77,6 @@ def CreatePlayersTable(Conn: sqlite3.Connection) -> None:
             Id INTEGER PRIMARY KEY AUTOINCREMENT,
             DiscordId TEXT NULL,
             Name TEXT NULL,
-            Copper INTEGER NULL,
             PermissionLevel INTEGER NOT NULL DEFAULT 0,
             IsDeleted INTEGER NOT NULL DEFAULT 0
         );
@@ -164,6 +163,7 @@ def CreateHistoryTable(Conn: sqlite3.Connection) -> None:
             CREATE TABLE {HISTORY_T} (
                 "Id"	INTEGER NOT NULL UNIQUE,
                 "CompanyId"	INTEGER NOT NULL,
+                GoldValue REAL NOT NULL,
                 FOREIGN KEY("CompanyId") REFERENCES "Company"("Id"),
                 PRIMARY KEY("Id" AUTOINCREMENT)
             );
@@ -240,8 +240,7 @@ def CreatePlayer(DiscordId: str = "", Name: str = "") -> int:
         if DiscordId == "" and Name == "":
             raise Exception("Neither DiscordId nor Name inputed.")
 
-        conn = sqlite3.connect(CONNECTION_PATH,
-                               isolation_level=ISOLATION_LEVEL)
+        conn = sqlite3.connect(CONNECTION_PATH, isolation_level=ISOLATION_LEVEL)
         cur = conn.cursor()
         sql = f"""
                 INSERT INTO {PLAYERS_T}(DiscordId, Name)
