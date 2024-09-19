@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 Database/*
 .DS_Store
-databases/date_channel_id.json
+databases/
