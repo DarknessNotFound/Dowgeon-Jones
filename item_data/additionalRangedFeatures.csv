@@ -1,0 +1,8 @@
+description,modifier,rarity
+"MEGA CRITICAL: Roll damage dice an additional 1 times on a critical hit.", 1.0,R
+"ULTRA MEGA CRITICAL: Roll damage dice an additional 2 times on a critical hit.", 1.0,L
+"What a Lucky Crit: Critical hits occur on a 19 or 20", 0.25,U
+"Fortunate Son: Can reroll 1's on the damage dice.", 0.25,U
+"Mega Fortunate Son: Can mulligan 1's and 2's on the damage dice once per round.", 0.35,R
+"Blood Frenzy: After the weapon is used to kill 5 creatures, it grants a +2 to hit. After the weapon is used to kill 10 creatures it grants +1 extra attack. Bonuses last 10 turns. Killing another creature within the time limit resets the timer.", 0.1,R
+"Harpoon: The weapon can be thrown up to 60ft creating a magic cord between wielder and target. The wielder can spend an action to make a STR check to pull the target 25ft directly towards them. The wielder can also spend an action to pull themselves 25ft towards the target.",0.25,R

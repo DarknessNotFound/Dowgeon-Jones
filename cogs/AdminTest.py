@@ -2,6 +2,7 @@
 import discord
 import Logging as Log
 from discord.ext import commands
+from asyncio import sleep
 
 FILE_NAME = "AdminTest"
 class AdminTest(commands.Cog):
@@ -23,6 +24,27 @@ class AdminTest(commands.Cog):
 
     @commands.command(name='ThrowError', help='Function that throws an error, mostly for logging sake')
     async def ThrowError(self, ctx, *args):
+        try:
+            Log.Command(ctx.author.id, "ThrowError", ' '.join(args))
+            await ctx.send("Throwing a test error...")
+            raise Exception("This is a test error, ignore.")
+        except Exception as ex:
+            Log.Error(FILE_NAME, "throwError", str(ex))
+    
+    @commands.command(name='editMessageStart')
+    async def EditMessageStart(self, ctx, *args):
+        try:
+            message = await ctx.send("Testing things")
+            print(message)
+            print(f"Message Id: {message.id}")
+            await sleep(2)
+            print("Sleep done.")
+            await message.edit(content="This message was edited")
+        except Exception as ex:
+            Log.Error(FILE_NAME, "throwError", str(ex))
+
+    @commands.command(name='editMessageEdit')
+    async def EditMessageEdit(self, ctx, *args):
         try:
             Log.Command(ctx.author.id, "ThrowError", ' '.join(args))
             await ctx.send("Throwing a test error...")

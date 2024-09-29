@@ -1,0 +1,29 @@
+description,modifier,rarity
+Sheds dim light for 10 feet., 0.1,R
+"Sheds dim light for 20 feet.", 0.12,C
+"Sheds dim light for 30 feet.", 0.14,R
+"Sheds bright light for 10 feet, dim for an additional 10 feet.", 0.12,C
+"Sheds bright light for 20 feet, dim for an additional 10 feet.", 0.14,C
+"Sheds bright light for 20 feet, dim for an additional 20 feet.", 0.16,U
+"Sheds bright light for 20 feet, dim for an additional 30 feet.", 0.14,R
+"Sheds bright light for 30 feet, dim for an additional 10 feet.", 0.16,R
+"Sheds bright light for 30 feet, dim for an additional 20 feet.", 0.18,R
+"Sheds bright light for 30 feet, dim for an additional 30 feet.", 0.2,L
+"MEGA CRITICAL: Roll damage dice an additional 1 times on a critical hit.", 1.0,R
+"ULTRA MEGA CRITICAL: Roll damage dice an additional 2 times on a critical hit.", 1.0,L
+"What a Lucky Crit: Critical hits occur on a 19 or 20", 0.25,U
+"Fortunate Son: Can reroll 1's on the damage dice.", 0.25,U
+"Mega Fortunate Son: Can mulligan 1's and 2's on the damage dice once per round.", 0.35,R
+"Mythril: Weapon has the light property", 1.0,U
+"Blood Frenzy: After the weapon is used to kill 5 creatures, it grants a +2 to hit. After the weapon is used to kill 10 creatures it grants +1 extra attack. Bonuses last 10 turns. Killing another creature within the time limit resets the timer.", 0.1,R
+"Aquatic: Allows the wielder to breathe underwater and suffers no penalty to attacks in water",0.5,L
+"Mage Slayer: Creatures have disadvantage maintaining concentration when hit by this weapon.",0.5,R
+"Consecrating: The corpses of those struck cannot rise from the grave as any malevolent undead, such as shadows, zombies, or vampire spawn.",0.1,U
+"Consuming: As an action, up to 1d6 times per day, suck a total of 1d6 hitpoints from one or more willing allies within 30 feet of you; gain advantage on your next melee attack; on a hit, you deal an additional amount of damage equal to twice that number as acid damage (DC 12+Proficiency Bonus Reflex save, for half)",0.25,L
+"Eternal Peace: Does an additional 2d6 damage against undead.", 0.2,U
+"Forever Heaven: Does an additional 2d6 against devils or fiends.", 0.2,U
+"Perma-Dust: Does an additional 2d6 damage against water-based creatures.", 0.2,U
+"Frosty: Does an additional 2d6 damage against fire-based creatures.", 0.2,U
+"Communication: Once per day, you can cast Tongues when wielding this weapon.", 0.2,U
+"Handling: This weapon ‘glues’ itself to your hand. You can never be disarmed while using this weapon.",0.05,U
+"Icing: Three times per long rest, the wielder may strike a solid surface coating it with ice. Effect similar to 'grease' spell.",0.1,U

@@ -13,6 +13,7 @@ def RarityProcessor(level: str) -> int:
     elif level == "L":
         return 1
     else:
+        print(level)
         return -1
 
 def ProcessWordsFile(path: str) -> list[str]:
@@ -55,6 +56,7 @@ DAMAGE_TYPES = [
     "Thunder"
 ]
 MELEE_ITEMS = ProcessWeaponsFile(ITEMS_BASE_PATH+"/meleeWeapons.csv")
+MELEE_ADDITIONAL_PROPERTIES = ProcessWeaponsFile(ITEMS_BASE_PATH+"/additionalMeleeFeatures.csv")
 RANDOM_WORDS = ProcessWordsFile(ITEMS_BASE_PATH + '/words.txt')
 
 def RandomDamageType(probabilities: list = None) -> str:
@@ -145,9 +147,11 @@ def GenerateMeleeWeapon():
     DAMAGE_PROBABILITIES = [1, 0, 5, 5, 1, 1, 1, 0, 5, 1, 5, 0, 1]
     price_modifier = 1.0
     magical = False
+    silvered = False
     additional_dmg = False
     additional_dmg_type = None
     dice = None
+    additional_property = ""
 
     (weapon_type, base_price) = choice(MELEE_ITEMS)
     name = RandomWeaponName(weapon_type)
@@ -156,6 +160,10 @@ def GenerateMeleeWeapon():
     weapon_mod_prob = [7, 40, 45, 6.9, 1.1]
     dmg_mod = choices(weapon_mod_list, weights = weapon_mod_prob)[0]
     base_price = WeaponScaling(base_price, dmg_mod)
+
+    if (randrange(10) == 1):
+        price_modifier += randrange(10) / 100
+        silvered = True
 
     if (dmg_mod == 1 and (randrange(1, 4) == 3)) or dmg_mod >= 2:
         magical = True
@@ -173,13 +181,37 @@ def GenerateMeleeWeapon():
             dice = f"{num_dice}d{dice_types[dice_index]}"
             price_modifier += dice_costs[dice_index]
 
+            if randrange(2) == 1:
+                (additional_property, add_prop_mod) = choice(MELEE_ADDITIONAL_PROPERTIES)
+                price_modifier += add_prop_mod
+                
+                if randrange(2) == 1:
+                    second_property, add_prop_mod = choice(MELEE_ADDITIONAL_PROPERTIES)
+                    while second_property == additional_property or "Sheds " in second_property:
+                        second_property, add_prop_mod = choice(MELEE_ADDITIONAL_PROPERTIES)
+
+                    additional_property += "\n\t" + second_property
+                    price_modifier += add_prop_mod
+
+                    if randrange(4) == 1:
+                        third_property, add_prop_mod = choice(MELEE_ADDITIONAL_PROPERTIES)
+                        while third_property == additional_property or third_property == second_property or "Sheds " in third_property:
+                            third_property, add_prop_mod = choice(MELEE_ADDITIONAL_PROPERTIES)
+
+                        additional_property += "\n\t" + third_property
+                        price_modifier += add_prop_mod
+
+
+
     final_price = round(base_price * price_modifier, 2)
     magical_tag = ", magical" if magical else ""
+    silvered_tag = ", silvered" if silvered else ""
     dmg_mod_tag = f", +{dmg_mod}" if dmg_mod >= 1 else (f", {dmg_mod}" if dmg_mod < 0 else "")
 
     description = f"\n\tThis {weapon_type} does an additional {dice} {additional_dmg_type} damage." if additional_dmg else ""
+    description += f"\n\t{additional_property}" if additional_property != "" else ""
 
-    return f"{name}: *{weapon_type}{dmg_mod_tag}{magical_tag}*\n\tCost: {CostPrettyPrint(final_price)}{description}"
+    return f"{name}: *{weapon_type}{dmg_mod_tag}{magical_tag}{silvered_tag}*\n\tCost: {CostPrettyPrint(final_price)}{description}"
 
 if __name__=="__main__":
     print("Item Generator Started")

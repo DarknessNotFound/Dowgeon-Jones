@@ -1,0 +1,29 @@
+weapon,price,rarity
+Club,0.1,U
+Dagger,2,C
+Greatclub,0.2,R
+Handaxe,5,U
+Javelin,0.5,C
+Light hammer,2,U
+Mace,5,C
+Quarterstaff,0.2,U
+Sickle,1,R
+Spear,1,U
+Battleaxe,10,U
+Flail,10,R
+Glaive,20,R
+Greataxe,30,U
+Greatsword,50,U
+Hailberd,20,R
+Lance,10,U
+Longsword,15,C
+Maul,10,U
+Morningstar,15,R
+Pike,5,U
+Rapier, 25,C
+Scimitar,25,C
+Shortsword,10,C
+Trident,5,R
+War pick,5,U
+Warhammer,15,C
+Whip,2,R
