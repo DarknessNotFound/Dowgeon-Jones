@@ -8,7 +8,9 @@ RUN python3 -m pip install -U discord.py
 
 RUN mkdir ./Databases
 RUN mkdir ./cogs
+RUN mkdir ./item_data
 COPY *.py ./
 COPY cogs/*.py ./cogs/
+COPY item_data/* ./item_data
 
 CMD  python ./main.py
