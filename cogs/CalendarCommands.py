@@ -173,11 +173,16 @@ class Calendar(commands.Cog):
         await self.client.wait_until_ready()
         for guild in self.client.guilds:
             if str(guild.id) not in self.voice_chat_d:
-                channel = await guild.create_voice_channel(name = f"{time.time() % 3}_{PrettyPrintDate(time.time(), True)}")
+                channel = await guild.create_voice_channel(name = f"{PrettyPrintDate(time.time(), True)}")
                 self.voice_chat_d[str(guild.id)] = channel.id
             else:
                 channel = self.client.get_channel(self.voice_chat_d[str(guild.id)])
-                await channel.edit(name=PrettyPrintDate(time.time(), True))
+                if channel is None:
+                    channel = await guild.create_voice_channel(name = f"{PrettyPrintDate(time.time(), True)}")
+                    self.voice_chat_d[str(guild.id)] = channel.id
+                else:
+                    await channel.edit(name=PrettyPrintDate(time.time(), True))
+        json.dump( self.voice_chat_d, open( DATE_CHANNEL_ID_FILE, 'w' ) )
 
 async def setup(client):
     await client.add_cog(Calendar(client))
