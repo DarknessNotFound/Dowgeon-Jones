@@ -76,6 +76,53 @@ class Calendar(commands.Cog):
                 await ctx.send(f"Datetime: {PrettyPrintDate(time.time(), True)}")
             
         except Exception as ex:
+            Log.Error(FILE_NAME, "date", str(ex))
+            print(f"ERROR: In file \"{FILE_NAME}\" of command \"date\"")
+            print(f"Message: {str(ex)}")
+            await ctx.send("Error calculating time, please try again.")
+
+    @commands.command(name='time', help='Displays the current time. [epoch] adding an interger of epoch time will convert any epoch time.')
+    async def time(self, ctx, *args):
+        """Displays the date, defaults current date.
+
+        Args:
+            ctx (_type_): _description_
+        """
+        try:
+            if len(args) > 0:
+                if args[0].isdigit() and int(args[0]) >= 0:
+                    await ctx.send(f"Datetime: {PrettyPrintDate(int(args[0]), False)}")
+                else:
+                    await ctx.send(f"ERROR: please input a positive integer")
+            else:
+                await ctx.send(f"Datetime: {PrettyPrintDate(time.time(), False)}")
+            
+        except Exception as ex:
+            Log.Error(FILE_NAME, "time", str(ex))
+            print(f"ERROR: In file \"{FILE_NAME}\" of command \"time\"")
+            print(f"Message: {str(ex)}")
+            await ctx.send("Error calculating time, please try again.")
+
+    @commands.command(name='timeTilNextDay', help='Displays the number of epoch minutes until the start of the next day')
+    async def timeTilNextDay(self, ctx, *args):
+        """Displays the number of epoch minutes until the start of the next day
+
+        Args:
+            ctx (_type_): _description_
+        """
+        def timeTil(epoch: float) -> float:
+            return calendarHelper.SECONDS_PER_IN_GAME_DAY - epoch % calendarHelper.SECONDS_PER_IN_GAME_DAY
+        
+        try:
+            if len(args) > 0:
+                if args[0].isdigit() and int(args[0]) >= 0:
+                    await ctx.send(f"Time until next day is {round(int(timeTil(int(args[0])))/60/60, 2)} hours")
+                else:
+                    await ctx.send(f"ERROR: please input a positive integer")
+            else:
+                await ctx.send(f"Time Until: {round(int(timeTil(time.time()))/60/60, 4)} hours")
+            
+        except Exception as ex:
             Log.Error(FILE_NAME, "time", str(ex))
             print(f"ERROR: In file \"{FILE_NAME}\" of command \"time\"")
             print(f"Message: {str(ex)}")
