@@ -12,7 +12,7 @@ import time
 import json
 
 FILE_NAME = "CalendarCommands"
-DATE_CHANNEL_ID_FILE = "./Databases/shop_channel_data.json"
+DATE_CHANNEL_ID_FILE = "./databases/shop_channel_data.json"
 
 class ShopManagement(commands.Cog):
     def __init__(self, client):
