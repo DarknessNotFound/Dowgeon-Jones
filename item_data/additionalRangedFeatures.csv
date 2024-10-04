@@ -1,8 +1,12 @@
 description,modifier,rarity
-"MEGA CRITICAL: Roll damage dice an additional 1 times on a critical hit.", 1.0,R
-"ULTRA MEGA CRITICAL: Roll damage dice an additional 2 times on a critical hit.", 1.0,L
-"What a Lucky Crit: Critical hits occur on a 19 or 20", 0.25,U
-"Fortunate Son: Can reroll 1's on the damage dice.", 0.25,U
-"Mega Fortunate Son: Can mulligan 1's and 2's on the damage dice once per round.", 0.35,R
-"Blood Frenzy: After the weapon is used to kill 5 creatures, it grants a +2 to hit. After the weapon is used to kill 10 creatures it grants +1 extra attack. Bonuses last 10 turns. Killing another creature within the time limit resets the timer.", 0.1,R
-"Harpoon: The weapon can be thrown up to 60ft creating a magic cord between wielder and target. The wielder can spend an action to make a STR check to pull the target 25ft directly towards them. The wielder can also spend an action to pull themselves 25ft towards the target.",0.25,R
+"MEGA CRITICAL: Roll damage dice an additional 1 times on a critical hit.",1.5,R
+"ULTRA MEGA CRITICAL: Roll damage dice an additional 2 times on a critical hit.",2.0,L
+"What a Lucky Crit: Critical hits occur on a 19 or 20",0.75,U
+"Fortunate Son: Can reroll 1's on the damage dice.",1.0,U
+"Mega Fortunate Son: Can mulligan 1's and 2's on the damage dice once per round.", 1.25,R
+"Blood Frenzy: After the weapon is used to kill 5 creatures, it grants a +2 to hit. After the weapon is used to kill 10 creatures it grants +1 extra attack. Bonuses last 10 turns. Killing another creature within the time limit resets the timer.", 0.5,R
+"Harpoon: Any ammunition shot has a 60ft magic cord between wielder and target that last until the end of your current turn. The wielder can spend an bonus action to make a STR check (against oppenent's grapple) to pull the target up to 25ft directly towards them.",0.75,R
+"Achaemenid Blessing: This weapon gives you advantage on initiative rolls", 1.0,L
+"Snipe-uh Awww Man: This weapon allows you to ignore your disadvantage at range as well as ignoring 1/2 and 3/4 cover.",1.25,R
+"Pot Shot: Once per day, -5 to hit for a +10 to your damage.",0.75,U
+"Leeroy's Pot Shot: 3x per day, -12 to hit for a +20 to your damage.",1.25,L

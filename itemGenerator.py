@@ -56,7 +56,9 @@ DAMAGE_TYPES = [
     "Thunder"
 ]
 MELEE_ITEMS = ProcessWeaponsFile(ITEMS_BASE_PATH+"/meleeWeapons.csv")
+RANGE_ITEMS = ProcessWeaponsFile(ITEMS_BASE_PATH+"/rangedWeapons.csv")
 MELEE_ADDITIONAL_PROPERTIES = ProcessWeaponsFile(ITEMS_BASE_PATH+"/additionalMeleeFeatures.csv")
+RANGE_ADDITIONAL_PROPERTIES = ProcessWeaponsFile(ITEMS_BASE_PATH+"/additionalRangedFeatures.csv")
 RANDOM_WORDS = ProcessWordsFile(ITEMS_BASE_PATH + '/words.txt')
 
 def RandomDamageType(probabilities: list = None) -> str:
@@ -141,7 +143,7 @@ def RandomWeaponName(weapon_type: str) -> str:
     return result.title()
 
 
-def GenerateMeleeWeapon():
+def GenerateMeleeWeapon() -> str:
     """Generates a random Melee weapon and returns the text description and it's shorthand.
     """
     DAMAGE_PROBABILITIES = [1, 0, 5, 5, 1, 1, 1, 0, 5, 1, 5, 0, 1]
@@ -201,10 +203,8 @@ def GenerateMeleeWeapon():
                         additional_property += "\n\t" + third_property
                         price_modifier += add_prop_mod
 
-
-
     final_price = round(base_price * price_modifier, 2)
-    magical_tag = ", magical" if magical else ""
+    magical_tag = ", atunement, magical" if magical else ""
     silvered_tag = ", silvered" if silvered else ""
     dmg_mod_tag = f", +{dmg_mod}" if dmg_mod >= 1 else (f", {dmg_mod}" if dmg_mod < 0 else "")
 
@@ -213,8 +213,61 @@ def GenerateMeleeWeapon():
 
     return f"{name}: *{weapon_type}{dmg_mod_tag}{magical_tag}{silvered_tag}*\n\tCost: {CostPrettyPrint(final_price)}{description}"
 
+def GenerateRangedWeapon() -> str:
+    (weapon_type, base_price) = choice(RANGE_ITEMS)
+    name = RandomWeaponName(weapon_type)
+    price_modifier = 1.0
+    magical = False
+    description = ""
+    additional_property = ""
+
+    weapon_mod_list = [-1, 0, 1, 2, 3]
+    weapon_mod_prob = [7, 40, 45, 6.9, 1.1]
+    dmg_mod = choices(weapon_mod_list, weights = weapon_mod_prob)[0]
+    base_price = WeaponScaling(base_price, dmg_mod)
+
+    if (dmg_mod == 1 and (randrange(1, 4) == 3)) or dmg_mod >= 2:
+        magical = True
+        price_modifier += 0.5
+
+        if randrange(2) == 1:
+            (additional_property, add_prop_mod) = choice(RANGE_ADDITIONAL_PROPERTIES)
+            price_modifier += add_prop_mod
+            
+            if randrange(2) == 1:
+                second_property, add_prop_mod = choice(RANGE_ADDITIONAL_PROPERTIES)
+                while second_property == additional_property:
+                    second_property, add_prop_mod = choice(RANGE_ADDITIONAL_PROPERTIES)
+                
+                additional_property += "\n\t" + second_property
+                price_modifier += add_prop_mod
+
+    final_price = base_price * price_modifier
+    
+    dmg_mod_tag = f", +{dmg_mod}" if dmg_mod >= 1 else (f", {dmg_mod}" if dmg_mod < 0 else "")
+
+    magical_tag = ", atunement, magical" if magical else ""
+    description += f"\n\t{additional_property}" if additional_property != "" else ""
+    return f"{name}: *{weapon_type}{dmg_mod_tag}{magical_tag}*\n\tCost: {CostPrettyPrint(final_price)}{description}"
+
+def RandomArrow() -> str:
+    dmg_type = choice(DAMAGE_TYPES)
+    return f"Magic Arrows: *Bundle of 5 single-use arrows that deal an additional 2d6 {dmg_type} damage*\n\tCost: {CostPrettyPrint(250)}"
+
+
+def RandomItem() -> str:
+    item_choices = ["Melee", "Ranged", "Arrow"]
+    item_choices_prob = [65, 25, 10]
+    item = choices(item_choices, weights = item_choices_prob)[0]
+
+    if item == "Melee":
+        return GenerateMeleeWeapon()
+    elif item == "Ranged":
+        return GenerateRangedWeapon()
+    elif item == "Arrow":
+        return RandomArrow()
+
 if __name__=="__main__":
     print("Item Generator Started")
     for i in range(100000):
-        print(f"{GenerateMeleeWeapon()}")
-        # print(f"{GenerateMeleeWeapon()}")
+        print(RandomItem())
