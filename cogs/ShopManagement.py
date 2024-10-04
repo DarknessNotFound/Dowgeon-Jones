@@ -46,6 +46,28 @@ class ShopManagement(commands.Cog):
             print(f"Message: {str(ex)}")
             await ctx.send("Error generating a melee weapon, please try again.") 
 
+    @commands.command(name='shopRanged', help='Generates a random melee weapon.')
+    async def randomRangedWeapon(self, ctx, *args):
+        """Generates a random melee weapon.
+
+        Args:
+            ctx (_type_): _description_
+        """
+        try:
+            num_weapons = 1
+            if len(args) > 0:
+                if args[0].isdigit() and int(args[0]) >= 0:
+                    num_weapons = int(args[0])
+
+            for i in range(num_weapons):
+                await ctx.send(f"{iGen.GenerateRangedWeapon()}")
+            
+        except Exception as ex:
+            Log.Error(FILE_NAME, "randomRangedWeapon", str(ex))
+            print(f"ERROR: In file \"{FILE_NAME}\" of command \"randomRangedWeapon\"")
+            print(f"Message: {str(ex)}")
+            await ctx.send("Error generating a ranged weapon, please try again.") 
+
     @commands.command(name='startShop', help='Starts the random shop generator.')
     async def startShop(self, ctx, *args):
         try:
@@ -57,7 +79,7 @@ class ShopManagement(commands.Cog):
             for i in range(num_shops):
                 message = await ctx.send("Starting shop here...")
                 self.shops_msg_ids.append((message.channel.id, message.id))
-                await message.edit(content=iGen.GenerateMeleeWeapon())
+                await message.edit(content=iGen.RandomItem())
         except Exception as ex:
             Log.Error(FILE_NAME, "startShop", str(ex))
             print(f"ERROR: In file \"{FILE_NAME}\" of command \"startShop\"")
@@ -81,7 +103,7 @@ class ShopManagement(commands.Cog):
             for msg_id in self.shops_msg_ids:
                 channel = await self.client.fetch_channel(msg_id[0])
                 message = await channel.fetch_message(msg_id[1])
-                new_weapon = iGen.GenerateMeleeWeapon()
+                new_weapon = iGen.RandomItem()
                 await message.edit(content=new_weapon)
             await ctx.send("Refreshed all shops.")
         except Exception as ex:
@@ -99,7 +121,7 @@ class ShopManagement(commands.Cog):
             for msg_id in self.shops_msg_ids:
                 channel = await self.client.fetch_channel(msg_id[0])
                 message = await channel.fetch_message(msg_id[1])
-                new_weapon = iGen.GenerateMeleeWeapon()
+                new_weapon = iGen.RandomItem()
                 await message.edit(content=new_weapon)
         except Exception as ex:
             print(f"ERROR in update_shop: {ex}")
